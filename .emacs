@@ -1,12 +1,14 @@
-; Start package.el with emacs
-; (x-focus-frame nil)
 
-(global-set-key (kbd "C-x O") 'previous-multiframe-window)
+(require 'multiple-cursors)
 
 (require 'package)
 (add-to-list 'package-archives
  	     '("melpa" . "http://melpa.org/packages/") t)
-; 
+
+; Start package.el with emacs
+					; (x-focus-frame nil)
+					;
+
 ; (package-initialize)
 ; (require 'auto-complete)
 ; (require 'auto-complete-config)
@@ -31,12 +33,19 @@
 ;Enable iEdit Mode
 ;(define-key global-map (kbd "C-c ;") 'iedit-mode)
 
+
 (setq-default c-basic-offset 4)
 
 ; Start r-tags server if it is not running
 (add-hook 'c-mode-hook 'rtags-start-process-unless-running)
 (add-hook 'c++-mode-hook 'rtags-start-process-unless-running)
 (add-hook 'objc-mode-hook 'rtags-start-process-unless-running)
+
+(global-set-key (kbd "<f5>") 'rtags-find-symbol-at-point)
+(global-set-key (kbd "<f6>") 'rtags-find-symbol)
+(global-set-key (kbd "<f12>") 'compile)
+(global-set-key (kbd "C-x O") 'previous-multiframe-window)
+
 
 ;(defun my:ac-c-header-init()
 ;  (require 'auto-complete-c-headers)
@@ -56,7 +65,10 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
- '(custom-enabled-themes (quote (deeper-blue))))
+ '(custom-enabled-themes (quote (deeper-blue)))
+ '(package-selected-packages
+   (quote
+    (multiple-cursors jedi company-jedi company-irony flycheck-irony rtags exec-path-from-shell flycheck-clang-analyzer flycheck))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -69,3 +81,8 @@
 (with-eval-after-load 'flycheck
    (require 'flycheck-clang-analyzer)
    (flycheck-clang-analyzer-setup))
+
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+
