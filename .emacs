@@ -46,7 +46,6 @@
 (global-set-key (kbd "<f12>") 'compile)
 (global-set-key (kbd "C-x O") 'previous-multiframe-window)
 
-
 ;(defun my:ac-c-header-init()
 ;  (require 'auto-complete-c-headers)
 ;  (add-to-list 'ac-sources 'ac-source-c-headers)
