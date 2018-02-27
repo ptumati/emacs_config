@@ -1,35 +1,14 @@
-; Start package.el with emacs
+;;; init.el --- Initialization file for Emacs
+;;; Commentary: Emacs Startup File --- initialization for Emacs
+
 ; (x-focus-frame nil)
 
-(global-set-key (kbd "C-x O") 'previous-multiframe-window)
+(setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+(setq package-enable-at-startup nil) (package-initialize)
 
 (require 'package)
 (add-to-list 'package-archives
  	     '("melpa" . "http://melpa.org/packages/") t)
-; 
-; (package-initialize)
-; (require 'auto-complete)
-; (require 'auto-complete-config)
-; (ac-config-default)
-; 
-; (require 'cc-mode)
-; (require 'semantic)
-; 
-; (global-semanticdb-minor-mode 1)
-; (global-semantic-idle-scheduler-mode 1)
-; 
-; ; Turn on Semantic
-; (semantic-mode 1)
-; (global-ede-mode t)
-; 
-; 
-; (defun my:add-semantic-to-autocomplete()
-;   (add-to-list 'ac-sources 'ac-source-semantic)
-;   )
-; (add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
-
-;Enable iEdit Mode
-;(define-key global-map (kbd "C-c ;") 'iedit-mode)
 
 (setq-default c-basic-offset 4)
 
@@ -42,6 +21,11 @@
 (global-set-key (kbd "<f6>") 'rtags-find-symbol)
 (global-set-key (kbd "<f12>") 'compile)
 (global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x O") 'previous-multiframe-window)
+
+;; Standard Jedi.el setting
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
 
 ;(defun my:ac-c-header-init()
 ;  (require 'auto-complete-c-headers)
@@ -74,3 +58,13 @@
 (with-eval-after-load 'flycheck
    (require 'flycheck-clang-analyzer)
    (flycheck-clang-analyzer-setup))
+
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+
+
+
+
